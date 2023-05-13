@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="form">
+      <input type="email" placeholder="Email" id="email" />
+      <input type="password" placeholder="Password" id="pass" />
+      <button type="button" onclick="handleLogin()">LOGIN</button>
+      <p class="message">Không có tài khoản? <button type="button" onclick="handleRedirect()">Đăng kí</button></p>
+    </div>
+  </div>
+
+  <script>
+    const handleLogin = () => {
+      let emailUser = document.getElementById("email");
+      let password = document.getElementById("pass");
+      let isLogin = false;
+      let user = JSON.parse(localStorage.getItem('admin')) ?? [];
+      user.forEach((element) => {
+        if (element.email === emailUser.value && element.password === password.value) {
+          isLogin = true;
+        }
+      });
+      if (isLogin) {
+        localStorage.setItem('adminLogin', JSON.stringify({ email: emailUser.value }))
+        window.location = "home.html"
+      } else {
+        emailUser.value = " "
+        password.value = " "
+        alert("User not found: " + emailUser.value)
+      }
+    }
+
+    const handleRedirect = () => {
+      window.location = 'Register.html';
+    }
+  </script>
+
+</body>
+
+</html>

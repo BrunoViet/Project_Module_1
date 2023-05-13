@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="login-page">
+        <div class="form">
+            <input type="email" placeholder="Email" id="email" />
+            <input type="password" placeholder="password" id="password" />
+            <input type="password" placeholder="Re-password" id="repass">
+            <button onclick="handleRegister()">Create</button>
+            <p class="message">Đã có tài khoản? <button onclick="handleRedirect()">Đăng nhập</button></p>
+        </div>
+    </div>
+    <script>
+        const handleRegister = () => {
+            let emailUser = document.getElementById("email");
+            let password = document.getElementById("password");
+            let rpass = document.getElementById("repass");
+
+            let isExist = false;
+            let userLocal = JSON.parse(localStorage.getItem("admin")) ?? [];
+            userLocal.forEach((item) => {
+                if (item.name === emailUser.value) {
+                    isExist = true;
+                }
+            })
+            let user = {
+                id: `${userLocal.length + 1}`,
+                email: emailUser.value,
+                password: password.value,
+                role: "Admin",
+                status: "Active",
+            }
+            if (password.value === rpass.value) {
+                if (!isExist) {
+                    userLocal.push(user)
+                    localStorage.setItem('admin', JSON.stringify(userLocal))
+                    window.location = 'Login.html'
+                } else {
+                    alert("Email is already exists. Please try again")
+                }
+            } else {
+                emailUser.innerHTML = " "
+                password.innerHTML = " "
+                alert("Password retype is not correct!!!")
+            }
+        }
+
+        const handleRedirect = () => {
+            window.location = 'Login.html'
+        }
+    </script>
