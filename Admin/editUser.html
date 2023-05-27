@@ -112,7 +112,7 @@
         if (!emailUser.value && !statusUser.value && !roleUser.value) {
             alert("Vui lòng điền các thông tin đầy đủ")
         } else {
-            users.push
+            users.push(changeUser)
             localStorage.setItem("admin", JSON.stringify(users));
             window.location = "home.html"
         }

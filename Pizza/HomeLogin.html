@@ -127,7 +127,8 @@
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div id="modalBody"></div>
+                            <!-- <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel"
                                     style="text-align: center;font-size: 20px;">Thông tin đặt
                                     hàng
@@ -167,13 +168,16 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" onclick="orderInfo()">Save
                                     changes</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4" data-toggle="modal" data-target="#exampleModal">
+                <div id="listFood">
+
+                </div>
+                <!-- <div class="col-md-4 col-sm-4" data-toggle="modal" data-target="#exampleModal">
                     <div class="gallery-wrapper">
-                        <img src="images/gallery-img1.jpg" class="img-responsive gallery-img" alt="Pizza 1">
+                        <img onclick="" src="images/gallery-img1.jpg" class="img-responsive gallery-img" alt="Pizza 1">
                         <div class="gallery-des">
                             <h3>Pizza Hải Sản </h3>
                             <h4>180.000đ</h4>
@@ -215,7 +219,7 @@
                             <h4>180.000đ</h4>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -235,7 +239,7 @@
                         <div class="col-md-6 col-sm-6">
                             <input name="name" type="text" class="form-control" id="name" maxlength="60"
                                 placeholder="Tên">
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+                            <input name="email" type="email" class="form-control" id="emailRes" placeholder="Email">
                             <input name="message" type="text" class="form-control" id="message"
                                 placeholder="Phản hồi ý kiến">
                         </div>
@@ -244,7 +248,7 @@
                         </div>
                         <div class="col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6">
                             <button name="submit" type="button" class="form-control" id="submit"
-                                onclick="responseMessage()" value="Gửi phản hồi">Gửi phản hồi</button>
+                                onclick="sendResponse()" value="Gửi phản hồi">Gửi phản hồi</button>
                         </div>
                     </form>
                 </div>
@@ -307,7 +311,178 @@
     <script src="js/plugins.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
-    <script src="./js/home.js"></script>
+    <!-- <script src="./js/home.js"></script> -->
+    <!-- <script src="./js/orderUser.js"></script> -->
+    <script>
+        //Render loi chao
+        const getUser = JSON.parse(localStorage.getItem('adminLogin'));
+        const welcome = document.getElementById('welcome');
+        welcome.innerHTML = "Hello " + getUser.email + " !";
+
+        //Render food theo boostrap
+        const food = JSON.parse(localStorage.getItem('listfood'));
+
+        const renderFood = (data) => {
+            let listFood = document.getElementById('listFood');
+            let contentBody = ""
+            data.forEach((item) => {
+                contentBody += `
+     <div  class="col-md-5" id="listFood" data-toggle="modal" data-target="#exampleModal">
+     <div onclick="renderModal('${item.id}')" class="gallery-wrapper">
+         <img src="${item.imgUrl}"
+                 class="img-responsive gallery-img" alt="Pizza 1">
+         <div class="gallery-des">
+             <h3>${item.name} </h3>
+             <h4>${item.price}VND</h4>
+         </div>
+     </div>
+ </div>
+     `
+            })
+
+            listFood.innerHTML = contentBody
+
+        }
+
+        renderFood(food)
+
+        ////////////////////////////////////////////////////
+
+        const renderModal = (id) => {
+            let contentModal = document.getElementById("modalBody");
+            const food = JSON.parse(localStorage.getItem('listfood'));
+            let modalBody = ""
+            food.forEach(item => {
+                if (item.id == id) {
+                    modalBody += `
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="text-align: center;font-size: 20px;">Thông tin đặt
+                hàng
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div style="width: 50%;">
+                        <label>Họ và tên</label>
+                        <input type="email" class="form-control" id="name">
+                    </div><br>
+                    <div style="width: 50%;">
+                        <label>Email</label>
+                        <input type="text" class="form-control" id="email">
+                    </div>
+                </div><br>
+                <div class="form-group" style="width: 50%;">
+                    <label>Địa chỉ giao hàng</label>
+                    <input type="text" class="form-control" id="address">
+                </div>
+                <div class="form-group" style="width: 50%;">
+                    <label>Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone">
+                </div>
+                <div class="form-group" style="width: 50%;">
+                    <label>Ghi chú</label>
+                    <input type=" text" class="form-control" id="note">
+                </div>
+                <p>
+                <span style="font-size:20px">
+                    Loại bánh:
+                    ${item.name}
+                    <img src="${item.imgUrl}" style="height:200px;width:300px">
+                    </span>
+                </p>
+                <div style="font-size:20px">
+                    Giá tiền: ${item.price}đ
+                </div>
+                <div style="font-size:20px">
+                    Tiền ship (>3km)= 15000đ
+                    </div>
+                <div style="font-size:20px" >
+                    Tổng tiền phải thanh toán: 
+                    
+                    <p id="order">${parseInt(item.price) + 15000}đ</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary" onclick="orderInfo()">Đặt đơn</button>
+        </div>
+            `
+                }
+            })
+            contentModal.innerHTML = modalBody
+        }
+
+        //Lưu order vào localStorage
+        const orderInfo = () => {
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let address = document.getElementById('address').value;
+            let note = document.getElementById('note').value;
+            let phone = document.getElementById('phone').value;
+            let priceOrder = document.getElementById('order').innerText;
+            let isExist = false;
+            const getOrder = JSON.parse(localStorage.getItem('order')) ?? [];
+            getOrder.forEach(element => {
+                if (element.name === name) {
+                    isExist = true;
+                }
+            });
+            if (validateEmail(email) && name != "" && address != "" && phone != "") {
+                let order = {
+                    id: getOrder.length ? getOrder[getOrder.length - 1].id + 1 : 1,
+                    name: name,
+                    email: email,
+                    address: address,
+                    note: note,
+                    phone: phone,
+                    status: "Đã xác nhận",
+                    totalPrice: priceOrder
+                }
+                if (!isExist) {
+                    getOrder.push(order)
+                    localStorage.setItem('order', JSON.stringify(getOrder))
+                    alert('Đặt hàng thành công. Pizza sẽ được giao tới bạn ngay thôi!!!!')
+                    window.location = "HomeLogin.html"
+                } else {
+                    alert('Vui lòng đợi hoàn thành đơn hiện tại')
+                }
+            } else {
+                alert('Vui lòng kiểm tra lại thông tin!')
+            }
+
+        }
+
+        //Đăng xuất
+        const logOut = () => {
+            localStorage.removeItem('adminLogin')
+            window.location = "index.html"
+        }
+
+        //Render lời chào
+        const responseMessage = () => {
+            alert('Gửi phản hồi thành công')
+        }
+
+        //Validate email
+        const validateEmail = (email) => {
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        const sendResponse = () => {
+            let emailRes = document.getElementById('submit').value;
+            if (!validateEmail(emailRes)) {
+
+                alert('Email is not valid')
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -1,44 +1,31 @@
-const getUser = JSON.parse(localStorage.getItem('adminLogin'));
-const welcome = document.getElementById('welcome');
-welcome.innerHTML = "Hello " + getUser.email + " !";
 
+//Render câu chào
 const responseMessage = () => {
     alert('Gửi phản hồi thành công')
 }
 
-const logOut = () => {
-    localStorage.removeItem('adminLogin')
-    window.location = "index.html"
-}
-
-const orderInfo = () => {
-    let name = document.getElementById('name').value;
-    let email = document.getElementById('email').value;
-    let address = document.getElementById('address').value;
-    let note = document.getElementById('note').value;
-    let phone = document.getElementById('phone').value;
-    let isExist = false;
-    const getOrder = JSON.parse(localStorage.getItem('order')) ?? [];
-    getOrder.forEach(element => {
-        if (element.name === name) {
-            isExist = true;
-        }
-    });
-    let order = {
-        id: `${getOrder.length+1}`,
-        name: name,
-        email: email,
-        address: address,
-        note: note,
-        phone: phone,
-        status: "Đã xác nhận"
-    }
-    if (!isExist) {
-        getOrder.push(order)
-        localStorage.setItem('order', JSON.stringify(getOrder))
-        alert('Đặt hàng thành công. Pizza sẽ được giao tới bạn ngay thôi!!!!')
-        window.location="HomeLogin.html"
-    } else {
-        alert('Vui lòng đợi hoàn thành đơn hiện tại')
-    }
-}
+//Render list đồ ăn lên DOM
+const renderFood=()=>{
+    let listFood= document.getElementById('listFood');
+    const food= JSON.parse(localStorage.getItem('listfood'));
+    let contentBody=""
+    food.forEach((item)=>{
+     contentBody+= `
+     <div class="col-md-6" id="listFood" data-toggle="modal" data-target="#exampleModal">
+     <div class="gallery-wrapper">
+         <a href="../User/LoginUser.html"><img src="${item.imgUrl}"
+                 class="img-responsive gallery-img" alt="Pizza 1"></a>
+         <div class="gallery-des">
+             <h3>${item.name} </h3>
+             <h4>${item.price}VND</h4>
+         </div>
+     </div>
+ </div>
+     `
+    })
+ 
+    listFood.innerHTML=contentBody
+     
+ }
+ 
+ renderFood()

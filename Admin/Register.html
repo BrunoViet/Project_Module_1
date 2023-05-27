@@ -20,6 +20,8 @@
         </div>
     </div>
     <script>
+
+        //Đăng kí
         const handleRegister = () => {
             let emailUser = document.getElementById("email");
             let password = document.getElementById("password");
@@ -33,7 +35,7 @@
                 }
             })
             let user = {
-                id: `${userLocal.length + 1}`,
+                id: userLocal.length ? userLocal[userLocal.length - 1].id + 1 : 1,
                 email: emailUser.value,
                 password: password.value,
                 role: "Admin",
@@ -54,6 +56,7 @@
             }
         }
 
+        //Chuyển trang
         const handleRedirect = () => {
             window.location = 'Login.html'
         }

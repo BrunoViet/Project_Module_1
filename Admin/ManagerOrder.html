@@ -26,10 +26,12 @@
                     <a class="nav-link " aria-current="page" href="./home.html">Manager Users</a>
                     <a class="nav-link" href="./ManagerProduct.html">Manager Products</a>
                     <a class="nav-link active" href="./ManagerOrder.html">Manager Orders</a>
+                    <a class="nav-link" href="../Pizza/index.html">Home</a>
+
                 </div>
                 <div class="search" style="margin-left:400px;">
                     <span>
-                        <input type="text" placeholder="Search"
+                        <input type="text" placeholder="Search" id="searchBar"
                             style="width:300px; background-color: white;color: black;">
                         <i class="fas fa-search" style="color:white"></i>
                     </span>
@@ -55,6 +57,7 @@
                         <th>Email</th>
                         <th>Address</th>
                         <th>Phone</th>
+                        <th>Total Price</th>
                         <th>Note</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -71,6 +74,7 @@
     crossorigin="anonymous"></script>
 <script>
 
+    //Lấy dữ liệu từ localStorage về
     const users = JSON.parse(localStorage.getItem('order')) ?? [];
 
 
@@ -100,9 +104,10 @@
                 <td>${item.email}</td>
                 <td>${item.address}</td>
                 <td>${item.phone}</td>
+                <td>${item.totalPrice}</td>
                 <td>${item.note}</td>
                 <td id="status">Đã xác nhận</td>
-                <td><button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" 
+                <td><button type="button" id="Done" class="btn btn-primary me-2" data-bs-toggle="modal" 
                     data-bs-target="#staticBackdrop" onclick="handleChangeStatus()">Xong</button>
                     <button class="btn btn-danger" onclick="handleDelete(${item.id})">Xóa</button></td>
                 </tr>
@@ -112,6 +117,7 @@
     }
 
     renderUser(users)
+
     //render delete user
     const handleDelete = (id) => {
         let users = JSON.parse(localStorage.getItem('order')) ?? [];
@@ -125,9 +131,13 @@
         renderUser(users)
     }
 
+    //Xử lý trạng thái sau khi hoàn thành đơn
     const handleChangeStatus = () => {
-        let status= document.getElementById("status")
-        status.innerHTML="Hoàn thành"
+        let status = document.getElementById("status")
+        let done = document.getElementById("Done")
+        status.innerHTML = "Hoàn thành"
+        done.innerHTML = status.innerText == "Hoàn thành" ? "Chưa hoàn thành" : "Hoàn thành"
+
     }
 
 </script>

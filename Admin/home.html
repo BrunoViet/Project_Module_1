@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="home.css">
 </head>
 
+
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding:0 70px" data-bs-theme="dark">
         <div class="container-fluid">
@@ -26,11 +27,13 @@
                     <a class="nav-link active" aria-current="page" href="./home.html">Manager Users</a>
                     <a class="nav-link" href="./ManagerProduct.html">Manager Products</a>
                     <a class="nav-link" href="./ManagerOrder.html">Manager Orders</a>
+                    <a class="nav-link" href="../Pizza/index.html">Home</a>
                 </div>
                 <div class="search" style="margin-left:400px;">
                     <span>
-                        <input type="text" placeholder="Search" style="width:300px; background-color: white;">
-                        <i class="fas fa-search" style="color:white"></i>
+                        <input id="searchBar" type="text" oninput="usersearch()" placeholder="Search"
+                            style="width:300px; background-color: white;color: black;">
+                        <button type="button" onclick="searchUsers()">Search</button>
                     </span>
                 </div>
             </div>
@@ -119,10 +122,23 @@
         renderUser(users)
     }
 
+    //Chuyển trang 
     const RedirectEdit = () => {
         window.location = 'editUser.html'
     }
 
+    //Tìm kiếm user
+    const usersearch = () => {
+        let search = [];
+        let valueinput = document.getElementById("searchBar").value;
+        const userList = JSON.parse(localStorage.getItem("admin"));
+        userList.forEach((item) => {
+            if (item.email.toLowerCase().includes(valueinput.toLowerCase())) {
+                search.push(item);
+            }
+        });
+        renderUser(search)
+    }
 </script>
 
 </html>

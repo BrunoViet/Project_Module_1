@@ -19,6 +19,7 @@
         </div>
     </div>
     <script>
+        //Đăng kí user mới và lưu vào localStorage
         const handleRegister = () => {
             let emailUser = document.getElementById("email");
             let password = document.getElementById("password");
@@ -32,7 +33,7 @@
                 }
             })
             let user = {
-                id: `${userLocal.length + 1}`,
+                id: userLocal.length ? [userLocal.length - 1].id + 1 : 1,
                 email: emailUser.value,
                 password: password.value,
                 role: "User",
@@ -53,6 +54,7 @@
             }
         }
 
+        //Chuyển trang
         const handleRedirect = () => {
             window.location = 'LoginUser.html'
         }

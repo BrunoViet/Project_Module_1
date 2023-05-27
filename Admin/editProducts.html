@@ -40,39 +40,11 @@
             </div>
         </div>
     </nav>
-    <div class="container-edit" style="padding: 0 70px;">
-        <h1 style="text-align: center;margin: 20px;">Edit Products</h1>
-        <div class="row">
-            <div class="form-group col-12">
-                <label>ID</label>
-                <input type="text" class="form-control" id="id" placeholder="Nhập ID">
-            </div>
-            <div>
-                <button type="button" class="btn btn-primary" style="margin:20px" onclick="renderFoodOnly()">Tìm kiếm
-                    sản phẩm theo ID</button>
-            </div>
-            <div class="form-group col-6">
-                <label>Tên sản phẩm</label>
-                <input type="email" class="form-control" id="name" placeholder="Tên sản phẩm">
-            </div>
-            <div class="form-group col-6">
-                <label>Giá</label>
-                <input type="text" class="form-control" id="price">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Link hình ảnh</label>
-            <input type="text" class="form-control" id="link">
-        </div>
-        <div class="form-group">
-            <label>Mô tả</label>
-            <input type="text" class="form-control" id="description">
-        </div>
-        <button type="submit" class="btn btn-primary" style="margin-top: 20px;" onclick="foodUpdate()">Lưu thông
-            tin</button>
-    </div>
+
 </body>
 <script>
+
+    //Tìm đồ ăn cần chỉnh sửa theo id nhập vào ô input và tự fill vào các ô thông tin
     const renderFoodOnly = () => {
         let nameFood = document.getElementById("name");
         let priceFood = document.getElementById("price");
@@ -91,35 +63,12 @@
         });
     }
 
+    //Cập nhật chỉnh sửa đồ ăn
     const foodUpdate = () => {
-        let nameFood = document.getElementById("name");
-        let priceFood = document.getElementById("price");
-        let imgLink = document.getElementById("link");
-        let idFood = document.getElementById("id").value;
-        let description = document.getElementById("description");
 
-        const foods = JSON.parse(localStorage.getItem("listfood"))
-        foods.forEach((item, i) => {
-            if (item.id == idFood) {
-                foods.splice(i, 1)
-            }
-        })
-        let changeFood = {
-            id: idFood,
-            name: nameFood.value,
-            imgUrl: imgLink.value,
-            price: priceFood.value,
-            description: description.value
-        }
-        if (!nameFood.value && !priceFood.value && !imgLink.value && !description.value) {
-            alert("Missing required parameters")
-        } else {
-            foods.push(changeFood)
-            localStorage.setItem("listfood", JSON.stringify(foods))
-            window.location = "ManagerProduct.html"
-        }
     }
 
+    //Đăng xuất
     const handleLogout = () => {
         let userLogin = JSON.parse(localStorage.getItem('userLogin'));
         localStorage.removeItem('userLogin');
